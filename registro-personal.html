@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Registro de Personal — Sistema de Gestión</title>
+  <meta name="description" content="Sistema de registro y gestión de personal con Bootstrap 5">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      --danger-gradient: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+      --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    
+    .main-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+    
+    .header-section {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+    .header-section h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .header-section p {
+      margin: 0;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+    
+    .btn-gradient {
+      background: var(--primary-gradient);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      color: white;
+    }
+    
+    .btn-success-gradient {
+      background: var(--success-gradient);
+      box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+    }
+    
+    .btn-success-gradient:hover {
+      box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+    }
+    
+    .card-custom {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .card-custom:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+    
+    .table-container {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .table thead {
+      background: var(--primary-gradient);
+      color: white;
+    }
+    
+    .table thead th {
+      border: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      padding: 1rem;
+    }
+    
+    .table tbody tr {
+      transition: all 0.3s ease;
+    }
+    
+    .table tbody tr:hover {
+      background-color: rgba(102, 126, 234, 0.05);
+      transform: scale(1.01);
+    }
+    
+    .table tbody td {
+      padding: 1rem;
+      vertical-align: middle;
+      border-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .badge-custom {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+    
+    .modal-content {
+      border: none;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modal-header {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      padding: 1.5rem 2rem;
+    }
+    
+    .modal-header .btn-close {
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+    
+    .modal-header .btn-close:hover {
+      opacity: 1;
+    }
+    
+    .modal-title {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .modal-body {
+      padding: 2rem;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .invalid-feedback {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .stats-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stats-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #495057;
+      margin: 0;
+    }
+    
+    .stats-label {
+      color: #6c757d;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin: 0;
+    }
+    
+    .alert-custom {
+      border: none;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6c757d;
+    }
+    
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+    
+    .action-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      margin: 0 0.2rem;
+    }
+    
+    .action-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    @media (max-width: 768px) {
+      .header-section h1 {
+        font-size: 1.5rem;
+      }
+      
+      .main-container {
+        padding: 1rem;
+      }
+      
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .table-responsive {
+        font-size: 0.875rem;
+      }
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main-container">
+      <!-- Header -->
+      <div class="header-section">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h1>
+              <i class="bi bi-people-fill"></i>
+              Gestión de Personal
+            </h1>
+            <p class="lead mb-0">Sistema integral para el registro y administración de empleados</p>
+          </div>
+          <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <button class="btn btn-gradient btn-lg" data-bs-toggle="modal" data-bs-target="#employeeModal">
+              <i class="bi bi-person-plus-fill me-2"></i>Nuevo Empleado
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Estadísticas -->
+      <div class="row mb-4">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="stats-card fade-in">
+            <i class="bi bi-people stats-icon"></i>
+            <h3 class="stats-number" id="totalEmployees">0</h3>
+            <p class="stats-label">Total Empleados</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="stats-card fade-in" style="animation-delay: 0.1s">
+            <i class="bi bi-diagram-3 stats-icon"></i>
+            <h3 class="stats-number" id="totalDepartments">0</h3>
+            <p class="stats-label">Departamentos</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-card fade-in" style="animation-delay: 0.2s">
+            <i class="bi bi-calendar-check stats-icon"></i>
+            <h3 class="stats-number" id="newThisMonth">0</h3>
+            <p class="stats-label">Nuevos este mes</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Toolbar -->
+      <div class="card card-custom mb-3">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-6 mb-2 mb-md-0">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Buscar empleados...">
+              </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <button class="btn btn-outline-secondary me-2" id="clearAllBtn">
+                <i class="bi bi-trash me-2"></i>Limpiar Todo
+              </button>
+              <button class="btn btn-success-gradient btn-gradient" id="exportBtn">
+                <i class="bi bi-file-earmark-spreadsheet me-2"></i>Exportar CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabla -->
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th><i class="bi bi-person me-2"></i>Nombre Completo</th>
+                <th><i class="bi bi-envelope me-2"></i>Email</th>
+                <th><i class="bi bi-telephone me-2"></i>Teléfono</th>
+                <th><i class="bi bi-briefcase me-2"></i>Posición</th>
+                <th><i class="bi bi-building me-2"></i>Departamento</th>
+                <th><i class="bi bi-calendar me-2"></i>Fecha Inicio</th>
+                <th class="text-center"><i class="bi bi-gear me-2"></i>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="employeesList">
+              <!-- Filas generadas dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="employeeModalLabel">
+            <i class="bi bi-person-badge"></i>
+            Registrar Nuevo Empleado
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="employeeForm" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">
+                  <i class="bi bi-person"></i>Nombre
+                </label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required placeholder="Ingrese el nombre">
+                <div class="invalid-feedback" id="err-firstName"></div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">
+                  <i class="bi bi-person"></i>Apellido
+                </label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required placeholder="Ingrese el apellido">
+                <div class="invalid-feedback" id="err-lastName"></div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">
+                  <i class="bi bi-envelope"></i>Email
+                </label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="correo@ejemplo.com">
+                <div class="invalid-feedback" id="err-email"></div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">
+                  <i class="bi bi-telephone"></i>Teléfono
+                </label>
+                <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9()+\-\s]{7,20}" placeholder="+593 999 999 999">
+                <div class="invalid-feedback" id="err-phone"></div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="position" class="form-label">
+                  <i class="bi bi-briefcase"></i>Posición
+                </label>
+                <input type="text" class="form-control" id="position" name="position" placeholder="Ej. Desarrollador Frontend">
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="department" class="form-label">
+                  <i class="bi bi-building"></i>Departamento
+                </label>
+                <select class="form-select" id="department" name="department">
+                  <option value="">Seleccione un departamento</option>
+                  <option value="Desarrollo">Desarrollo</option>
+                  <option value="Diseño">Diseño</option>
+                  <option value="Ventas">Ventas</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Recursos Humanos">Recursos Humanos</option>
+                  <option value="Finanzas">Finanzas</option>
+                  <option value="Soporte">Soporte</option>
+                </select>
+              </div>
+              
+              <div class="col-12 mb-3">
+                <label for="startDate" class="form-label">
+                  <i class="bi bi-calendar-check"></i>Fecha de Inicio
+                </label>
+                <input type="date" class="form-control" id="startDate" name="startDate">
+              </div>
+            </div>
+            
+            <div id="formStatus" class="alert alert-custom d-none"></div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-2"></i>Cancelar
+              </button>
+              <button type="submit" class="btn btn-gradient">
+                <i class="bi bi-check-circle me-2"></i>Guardar Empleado
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Elementos del DOM
+    const employeeForm = document.getElementById('employeeForm');
+    const employeesList = document.getElementById('employeesList');
+    const formStatus = document.getElementById('formStatus');
+    const searchInput = document.getElementById('searchInput');
+    const exportBtn = document.getElementById('exportBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const totalEmployeesEl = document.getElementById('totalEmployees');
+    const totalDepartmentsEl = document.getElementById('totalDepartments');
+    const newThisMonthEl = document.getElementById('newThisMonth');
+    
+    let employeeModal;
+    let allEmployees = [];
+    
+    // Inicializar modal de Bootstrap
+    document.addEventListener('DOMContentLoaded', () => {
+      employeeModal = new bootstrap.Modal(document.getElementById('employeeModal'));
+      renderList();
+      updateStats();
+    });
+    
+    // Validación del formulario
+    function validateForm(formData) {
+      let isValid = true;
+      
+      // Limpiar errores previos
+      document.querySelectorAll('.invalid-feedback').forEach(el => {
+        el.textContent = '';
+        el.previousElementSibling.classList.remove('is-invalid');
+      });
+      
+      // Validar nombre
+      const firstName = formData.get('firstName')?.trim();
+      if (!firstName) {
+        showError('firstName', 'El nombre es requerido');
+        isValid = false;
+      }
+      
+      // Validar apellido
+      const lastName = formData.get('lastName')?.trim();
+      if (!lastName) {
+        showError('lastName', 'El apellido es requerido');
+        isValid = false;
+      }
+      
+      // Validar email
+      const email = formData.get('email')?.trim();
+      const emailRegex = /^\S+@\S+\.\S+$/;
+      if (!email || !emailRegex.test(email)) {
+        showError('email', 'Introduce un email válido');
+        isValid = false;
+      }
+      
+      // Validar teléfono (opcional pero debe ser válido si se proporciona)
+      const phone = formData.get('phone')?.trim();
+      if (phone && !/^[0-9()+\-\s]{7,20}$/.test(phone)) {
+        showError('phone', 'Formato de teléfono inválido');
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+    
+    function showError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const feedback = document.getElementById('err-' + fieldId);
+      input.classList.add('is-invalid');
+      feedback.textContent = message;
+    }
+    
+    // Guardar empleado
+    function saveEmployee(data) {
+      const stored = JSON.parse(localStorage.getItem('empleados') || '[]');
+      data.id = Date.now(); // Agregar ID único
+      stored.push(data);
+      localStorage.setItem('empleados', JSON.stringify(stored));
+      allEmployees = stored;
+      renderList();
+      updateStats();
+    }
+    
+    // Eliminar empleado
+    function deleteEmployee(id) {
+      if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
+        const stored = JSON.parse(localStorage.getItem('empleados') || '[]');
+        const filtered = stored.filter(emp => emp.id !== id);
+        localStorage.setItem('empleados', JSON.stringify(filtered));
+        allEmployees = filtered;
+        renderList();
+        updateStats();
+        showToast('Empleado eliminado correctamente', 'danger');
+      }
+    }
+    
+    // Renderizar lista
+    function renderList(filter = '') {
+      const stored = JSON.parse(localStorage.getItem('empleados') || '[]');
+      allEmployees = stored;
+      
+      let displayData = stored;
+      if (filter) {
+        displayData = stored.filter(emp => {
+          const searchText = filter.toLowerCase();
+          return (
+            emp.firstName?.toLowerCase().includes(searchText) ||
+            emp.lastName?.toLowerCase().includes(searchText) ||
+            emp.email?.toLowerCase().includes(searchText) ||
+            emp.position?.toLowerCase().includes(searchText) ||
+            emp.department?.toLowerCase().includes(searchText)
+          );
+        });
+      }
+      
+      employeesList.innerHTML = '';
+      
+      if (displayData.length === 0) {
+        employeesList.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center">
+              <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <h5>${filter ? 'No se encontraron resultados' : 'No hay empleados registrados'}</h5>
+                <p class="text-muted">${filter ? 'Intenta con otra búsqueda' : 'Comienza agregando un nuevo empleado'}</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      displayData.forEach((emp, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'fade-in';
+        tr.style.animationDelay = `${index * 0.05}s`;
+        
+        const departmentColors = {
+          'Desarrollo': 'primary',
+          'Diseño': 'info',
+          'Ventas': 'success',
+          'Marketing': 'warning',
+          'Recursos Humanos': 'danger',
+          'Finanzas': 'secondary',
+          'Soporte': 'dark'
+        };
+        
+        const badgeColor = departmentColors[emp.department] || 'secondary';
+        
+        tr.innerHTML = `
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle bg-gradient d-flex align-items-center justify-content-center me-2" 
+                   style="width: 40px; height: 40px; background: var(--primary-gradient); color: white; font-weight: 600;">
+                ${emp.firstName?.charAt(0)}${emp.lastName?.charAt(0)}
+              </div>
+              <strong>${emp.firstName} ${emp.lastName}</strong>
+            </div>
+          </td>
+          <td><i class="bi bi-envelope-fill text-primary me-2"></i>${emp.email}</td>
+          <td>${emp.phone ? '<i class="bi bi-telephone-fill text-success me-2"></i>' + emp.phone : '<span class="text-muted">N/A</span>'}</td>
+          <td>${emp.position || '<span class="text-muted">N/A</span>'}</td>
+          <td>
+            ${emp.department ? `<span class="badge bg-${badgeColor} badge-custom">${emp.department}</span>` : '<span class="text-muted">N/A</span>'}
+          </td>
+          <td>${emp.startDate ? new Date(emp.startDate).toLocaleDateString('es-ES') : '<span class="text-muted">N/A</span>'}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger action-btn" onclick="deleteEmployee(${emp.id})" title="Eliminar">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        `;
+        
+        employeesList.appendChild(tr);
+      });
+    }
+    
+    // Actualizar estadísticas
+    function updateStats() {
+      const stored = JSON.parse(localStorage.getItem('empleados') || '[]');
+      
+      // Total empleados
+      totalEmployeesEl.textContent = stored.length;
+      
+      // Total departamentos únicos
+      const departments = new Set(stored.map(emp => emp.department).filter(d => d));
+      totalDepartmentsEl.textContent = departments.size;
+      
+      // Nuevos este mes
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      const newThisMonth = stored.filter(emp => {
+        if (!emp.startDate) return false;
+        const startDate = new Date(emp.startDate);
+        return startDate.getMonth() === currentMonth && startDate.getFullYear() === currentYear;
+      });
+      newThisMonthEl.textContent = newThisMonth.length;
+    }
+    
+    // Mostrar toast
+    function showToast(message, type = 'success') {
+      formStatus.className = `alert alert-custom alert-${type}`;
+      formStatus.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i>${message}`;
+      formStatus.classList.remove('d-none');
+      
+      setTimeout(() => {
+        formStatus.classList.add('d-none');
+      }, 3000);
+    }
+    
+    // Evento submit del formulario
+    employeeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(employeeForm);
+      
+      if (!validateForm(formData)) {
+        return;
+      }
+      
+      const employee = Object.fromEntries(formData.entries());
+      saveEmployee(employee);
+      
+      showToast('Empleado guardado correctamente', 'success');
+      
+      setTimeout(() => {
+        employeeModal.hide();
+        employeeForm.reset();
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      }, 1000);
+    });
+    
+    // Búsqueda en tiempo real
+    searchInput.addEventListener('input', (e) => {
+      renderList(e.target.value);
+    });
+    
+    // Exportar CSV
+    exportBtn.addEventListener('click', () => {
+      const arr = JSON.parse(localStorage.getItem('empleados') || '[]');
+      
+      if (arr.length === 0) {
+        alert('No hay datos para exportar');
+        return;
+      }
+      
+      const headers = ['Nombre', 'Apellido', 'Email', 'Teléfono', 'Posición', 'Departamento', 'Fecha Inicio'];
+      const rows = arr.map(r => [
+        `"${r.firstName}"`,
+        `"${r.lastName}"`,
+        r.email || '',
+        r.phone || '',
+        r.position || '',
+        r.department || '',
+        r.startDate || ''
+      ]);
+      
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `empleados_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      
+      showToast('Archivo CSV descargado correctamente', 'success');
+    });
+    
+    // Limpiar todos los datos
+    clearAllBtn.addEventListener('click', () => {
+      if (confirm('¿Estás seguro de que deseas eliminar TODOS los empleados? Esta acción no se puede deshacer.')) {
+        localStorage.removeItem('empleados');
+        allEmployees = [];
+        renderList();
+        updateStats();
+        showToast('Todos los datos han sido eliminados', 'warning');
+      }
+    });
+    
+    // Limpiar formulario al abrir modal
+    document.getElementById('employeeModal').addEventListener('show.bs.modal', () => {
+      employeeForm.reset();
+      formStatus.classList.add('d-none');
+      document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    });
+  </script>
+</body>
+</html>
